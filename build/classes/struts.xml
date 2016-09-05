@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.custom.i18n.resources" value="mess"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="ture" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.multipart.maxSize" value="6000000" />
+	<!-- 默认static目录下的静态资源过不去过滤器，设置为false就可以了 -->
+	<constant name="struts.serve.static" value="false" />
+	
+	
+	<package name="default" extends="struts-default">
+		<!-- 直接输入项目名称的时候，默认访问该链接 -->
+		<action name="*UserAction" method="{1}"
+			class="com.oracle.action.UserAction">
+			<result name="loginSuccess">/index.jsp</result>
+			<result name="loginError">/login.jsp</result>
+			<result name="logout">/login.jsp</result>
+			<result name="registSuccess">/login.jsp</result>
+		    <result name="registError">/login.jsp</result>
+		</action>
+		
+		<action name="*FileAction" class="com.oracle.action.FileAction" method="{1}">
+		<interceptor-ref name="fileUpload">
+				<!-- 配置同意上传的文件类型 -->
+				<param name="allowedTypes">
+					image/jpeg,image/gif,image/png,image/bmp,
+					text/css,application/msword,application/octet-stream,text/html,
+					application/x-javascript,text/plain,application/zip,application/x-zip-compressed,
+					video/x-msvideo,application/msword,
+					audio/mpeg,application/pdf,application/vnd.ms-powerpoint,application/excel,
+					application/vnd.ms-excel,text/xml,application/xlsx,application/vnd.ms-excel.sheet.macroEnabled.12,
+					application/java-archive,
+					application/vnd.ms-excel,application/xlsx,application/vnd.ms-excel.sheet.macroEnabled.12,
+					application/java-archive,application/x-cdf,application/x-netcdf,application/x-cpio,application/x-csh,
+					application/x-dvi,message/rfc822,text/x-setext,application/x-gtar,application/x-hdf,
+					image/ief,application/x-latex,video/mpeg,application/x-troff-man,application/x-troff-me,message/rfc822,
+					message/rfc822,application/x-mif,video/quicktime,video/x-sgi-movie,video/mpeg,application/x-troff-ms,
+					application/x-netcdf,message/rfc822,application/oda,application/x-pkcs12,application/pkcs7-mime,image/x-portable-bitmap,
+					application/x-pkcs12,image/x-portable-graymap,image/x-portable-anymap,application/vnd.ms-powerpoint,
+					image/x-portable-pixmap,text/x-python,application/x-python-code,audio/x-pn-realaudio,application/x-pn-realaudio,image/x-cmu-raster,
+					image/x-rgb,text/richtext,text/x-sgml,application/x-sh,application/x-shar,application/x-wais-source,application/x-sv4cpio,application/x-sv4crc,
+					application/x-shockwave-flash,application/x-troff,application/x-tar,application/x-tcl,application/x-tex,application/x-texinfo,image/tiff,application/x-troff,
+					text/tab-separated-values,application/x-ustar,text/x-vcard,audio/x-wav,image/x-xbitmap,application/xml,image/x-xpixmap,image/x-xwindowdump,
+					application/kset,application/ksdps,application/kswps,
+					application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+					application/vnd.openxmlformats-officedocument.presentationml.presentation,
+					application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+				</param>
+				<!-- 配置同意上传文件的大小(单位字节) 2M -->
+			</interceptor-ref>
+		  <result name="list">/cloud/list.jsp</result>
+		  <result name="mkdir" type="redirectAction">listFileAction</result>
+		  <result name="upload" type="redirectAction">listFileAction</result>
+		  	  <result name="delete" type="redirectAction">listFileAction</result>
+		  <interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+	</package>
+</struts>
